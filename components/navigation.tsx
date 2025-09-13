@@ -92,7 +92,7 @@ export const Navigation = () => {
                     isActive={pathname === route.href}
                 />
             ))}
-            Navigation
+
         </nav>
     );
 };

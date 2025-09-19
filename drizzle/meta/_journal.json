@@ -15,6 +15,13 @@
       "when": 1757670339968,
       "tag": "0001_melodic_pixie",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1758291011413,
+      "tag": "0002_exotic_nomad",
+      "breakpoints": true
     }
   ]
 }

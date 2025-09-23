@@ -10,18 +10,20 @@ export const Header = () => {
             <div className="max-w-screen-2xl mx-auto">
                 <div className="w-full flex items-center justify-between mb-14">
                     <div className="flex items-center lg:gap-x-16">
-                        <HeaderLogo/>
+                        <HeaderLogo />
                         <Navigation />
                     </div>
-                    <ClerkLoaded>
-                        <UserButton afterSignOutUrl="/" />
-                    </ClerkLoaded>
-                    <ClerkLoading>
-                        <Loader2 className="size-8 animate-spin text-slate-400" />
-                    </ClerkLoading>
+                    <div>
+                        <ClerkLoading>
+                            <Loader2 className="size-8 animate-spin text-slate-400" />
+                        </ClerkLoading>
+                        <ClerkLoaded>
+                            <UserButton afterSignOutUrl="/" />
+                        </ClerkLoaded>
+                    </div>
                 </div>
                 <WelcomeMsg />
             </div>
-        </header>      
+        </header>
     );
 };

@@ -63,6 +63,8 @@ export const AmountInput = ({
                 value={value}
                 decimalsLimit={2}
                 decimalScale={2}
+                decimalSeparator="."    // cho phép nhập 10.5
+                groupSeparator=","  // dâu , là ngăn cách hàng nghìn
                 onValueChange={onChange}
                 disabled={disable}
             />

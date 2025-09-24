@@ -153,9 +153,10 @@ export const TransactionForm = ({
                             </FormLabel>
                             <FormControl>
                                 <Input
+                                    {...field}
+                                    value={field.value ?? ""}
                                     disabled={disabled}
                                     placeholder="Add a payee"
-                                    {...field}
                                 />
                             </FormControl>
                         </FormItem>

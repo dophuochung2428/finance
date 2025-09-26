@@ -8,21 +8,24 @@ import {
     CardTitle
 } from "@/components/ui/card";
 
+import { toast } from "sonner";
+import { useState } from "react";
+import { ImportCard } from "./import-card";
+import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
+
+
 import { Button } from "@/components/ui/button";
-import { transactions as transactionSchema } from "@/db/schema";
+
 import { columns } from "./columns";
 import { Loader2, Plus } from "lucide-react";
 import { UploadButton } from "./upload-button";
 import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { transactions as transactionSchema } from "@/db/schema";
 import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
+import { useBulkCreateTransactions } from "@/features/transactions/api/use-bulk-create-transactions";
 import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
-import { useState } from "react";
-import { ImportCard } from "./import-card";
-import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
-import { toast } from "sonner";
-
 
 enum VARIANTS {
     LIST = "LIST",
@@ -52,6 +55,7 @@ const TransactionsPage = () => {
     };
 
     const newTransaction = useNewTransaction();
+    const createTransactions = useBulkCreateTransactions();
     const deleteTransactions = useBulkDeleteTransactions();
     const transactionsQuery = useGetTransactions();
     const transactions = transactionsQuery.data || [];
@@ -71,8 +75,14 @@ const TransactionsPage = () => {
 
         const data = values.map((value) => ({
             ...value,
-            accountId: accountId as string;
+            accountId: accountId as string,
         }));
+
+        createTransactions.mutate(data, {
+            onSuccess: () => {
+                onCancelImport();
+            },
+        });
     };
 
     if (transactionsQuery.isLoading) {
@@ -95,7 +105,7 @@ const TransactionsPage = () => {
     if (variant === VARIANTS.IMPORT) {
         return (
             <>
-                <AcountDialog />
+                <AccountDialog />
                 <ImportCard
                     data={importResults.data}
                     onCancel={onCancelImport}

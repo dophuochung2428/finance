@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
-
+import { transactions as transactionSchema } from "@/db/schema";
 import { columns } from "./columns";
 import { Loader2, Plus } from "lucide-react";
 import { UploadButton } from "./upload-button";
@@ -20,6 +20,8 @@ import { useNewTransaction } from "@/features/transactions/hooks/use-new-transac
 import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
 import { useState } from "react";
 import { ImportCard } from "./import-card";
+import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
+import { toast } from "sonner";
 
 
 enum VARIANTS {
@@ -34,11 +36,12 @@ const INITIAL_IMPORT_RESULTS = {
 };
 
 const TransactionsPage = () => {
+    const [AccountDialog, confirm] = useSelectAccount();
     const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
     const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
 
     const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
-        console.log({results});
+        console.log({ results });
         setImportResults(results);
         setVariant(VARIANTS.IMPORT);
     };
@@ -56,6 +59,21 @@ const TransactionsPage = () => {
     const isDisabled =
         transactionsQuery.isLoading ||
         deleteTransactions.isPending;
+
+    const onSubmitImport = async (
+        values: typeof transactionSchema.$inferInsert[],
+    ) => {
+        const accountId = await confirm();
+
+        if (!accountId) {
+            return toast.error("Please select an account to continue.");
+        }
+
+        const data = values.map((value) => ({
+            ...value,
+            accountId: accountId as string;
+        }));
+    };
 
     if (transactionsQuery.isLoading) {
         return (
@@ -77,10 +95,11 @@ const TransactionsPage = () => {
     if (variant === VARIANTS.IMPORT) {
         return (
             <>
+                <AcountDialog />
                 <ImportCard
                     data={importResults.data}
                     onCancel={onCancelImport}
-                    onSubmit={() => { }}
+                    onSubmit={onSubmitImport}
                 />
             </>
         )
@@ -96,14 +115,14 @@ const TransactionsPage = () => {
 
                     <div className="flex flex-col lg:flex-row gap-y-2 items-center gap-x-2 w-full lg:w-auto">
                         <Button
-                         onClick={newTransaction.onOpen} size="sm" className="w-full lg:w-auto">
+                            onClick={newTransaction.onOpen} size="sm" className="w-full lg:w-auto">
                             <Plus className="size-4 mr-2" />
                             Add new
                         </Button>
-                        <UploadButton 
-                        onUpload={onUpload} />
+                        <UploadButton
+                            onUpload={onUpload} />
                     </div>
-                    
+
                 </CardHeader>
                 <CardContent>
                     <DataTable

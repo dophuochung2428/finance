@@ -70,7 +70,7 @@ const generateTransactionsForDay = (day: Date) => {
         const category = SEED_CATEGORIES[Math.floor(Math.random() * SEED_CATEGORIES.length)];
         const isExpense = Math.random() > 0.6; //60% change of being an expense
         const amount = generateRandomAmount(category);
-        const formattedAmount = convertAmountToMiliunits(isExpense ? -amount : amount); //Negative for expensex
+        const formattedAmount = convertAmountToMiliunits(isExpense ? -amount : amount); //Negative for expenses
 
         SEED_TRANSACTIONS.push({
             id: `transaction_${format(day, "yyyy-MM-dd")}_${i}`,

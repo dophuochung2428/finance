@@ -2,9 +2,16 @@
 
 import { HeaderLogo } from "@/components/header-logo";
 import { Navigation } from "@/components/navigation";
-import { UserButton, ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
 import { WelcomeMsg } from "@/components/welcome-msg";
+import dynamic from "next/dynamic";
+
+// Disable SSR cho UserButton
+const UserButton = dynamic(
+    () => import("@clerk/nextjs").then(m => m.UserButton),
+    { ssr: false }
+);
 
 export const Header = () => {
     return (

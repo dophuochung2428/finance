@@ -104,4 +104,4 @@ export function formatPercentage(
     return `+${result}`;
   }
   return result;
-}
+};

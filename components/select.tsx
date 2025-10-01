@@ -22,7 +22,7 @@ export const Select = ({
     placeholder
 }: Props) => {
     const onSelect = (
-        option: SingleValue<{ label: String, value: string }>
+        option: SingleValue<{ label: string, value: string }>
     ) => {
         onChange(option?.value);
     };

@@ -13,10 +13,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { de } from "zod/v4/locales";
-
-
-
 
 type Props = {
     id: string;

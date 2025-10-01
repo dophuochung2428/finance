@@ -28,7 +28,7 @@ export const useEditCategory = (id?: string) => {
             queryCLient.invalidateQueries({ queryKey: ["category", { id }] });
             queryCLient.invalidateQueries({ queryKey: ["categories"] });
             queryCLient.invalidateQueries({ queryKey: ["transactions"] });
-            //TODO: Invalidate sumary 
+            queryCLient.invalidateQueries({ queryKey: ["summary"] });
         },
         onError: () => {
             toast.error("Failed to edit category");

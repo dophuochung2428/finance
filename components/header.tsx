@@ -6,6 +6,7 @@ import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
 import { WelcomeMsg } from "@/components/welcome-msg";
 import dynamic from "next/dynamic";
+import { Filters } from "@/components/filters";
 
 // Disable SSR cho UserButton
 const UserButton = dynamic(
@@ -32,6 +33,7 @@ export const Header = () => {
                     </div>
                 </div>
                 <WelcomeMsg />
+                <Filters />
             </div>
         </header>
     );
